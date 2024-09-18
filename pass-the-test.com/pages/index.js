@@ -34,7 +34,7 @@ export default function Home() {
             className={styles.card}
           >
             <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
+            <p>Discover and deploy boilerplate example Next.js projects or dont who cares.</p>
           </a>
 
           <a
@@ -88,7 +88,7 @@ export default function Home() {
           color: inherit;
         }
         code {
-          background: #fafafa;
+          background: #f1fafa;
           border-radius: 5px;
           padding: 0.75rem;
           font-size: 1.1rem;
