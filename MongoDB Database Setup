@@ -1,0 +1,42 @@
+//Database Terminal
+// Progress of Setting up the MongoDB Database 
+
+Atlas atlas-ou9r53-shard-0 [primary] passtheTest> show collections
+Products
+Transactions
+Users
+
+//Setup a sample User in the Users collection
+//Address was embedded for easier access in queries
+Atlas atlas-ou9r53-shard-0 [primary] passtheTest> db.Users.find()
+[
+  {
+    _id: ObjectId('672831172083d28ab8c73bf8'),
+    user_id: 'UUID',
+    firstname: 'John',
+    lastname: 'Doe',
+    email: '123@gmail.com',
+    address: [
+      {
+        streetAddress: '1233 Home',
+        country: 'US',
+        state: 'CA',
+        city: 'Sacramento',
+        zipCode: '95843'
+      }
+    ]
+  }
+]
+
+//Shows a sample Transaction document in the Transactions Collection
+Atlas atlas-ou9r53-shard-0 [primary] passtheTest> db.Transactions.find()
+[
+  {
+    _id: ObjectId('67283d742083d28ab8c73bf9'),
+    transaction_id: 'UUID',
+    user_id: 'UUID',
+    product_id: 'UUID',
+    amount: 1,
+    transaction_date: 'Date'
+  }
+]
