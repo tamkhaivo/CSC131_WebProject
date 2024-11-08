@@ -4,7 +4,10 @@ import { useState } from "react";
 
 import { api } from "~/trpc/react";
 
-export function LatestPost() {
+export function LatestPost() { 
+
+  /*
+  TO DO: GENERIC API CALLS TO DB
   const [latestPost] = api.post.getLatest.useSuspenseQuery();
 
   const utils = api.useUtils();
@@ -16,6 +19,8 @@ export function LatestPost() {
     },
   });
 
+  
+  
   return (
     <div className="w-full max-w-xs">
       {latestPost ? (
@@ -47,4 +52,8 @@ export function LatestPost() {
       </form>
     </div>
   );
+   */
+  return (<>
+  </>);
+
 }
