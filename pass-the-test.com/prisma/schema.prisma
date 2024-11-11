@@ -19,8 +19,7 @@ model User {
     sessions        Session[]
     @@map("users")
 }
-
-
+    
 model Session {
     id              String      @id @default(auto()) @map("_id") @db.ObjectId
     sessionToken    String      @unique
