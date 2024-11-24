@@ -5,3 +5,14 @@ Study Guides are far and inbetween, we want to make higher quality study guides 
 ## Unlock Knowledge. Elevate your Potential.
 
 [Website Link](https://csc-131-web-project-fzkm.vercel.app)
+
+### Features
+
+Registered Application on Google Cloud Platform and GitHub
+Authentication with MongoDB
+Payment Processor with Stripe
+
+### Testing
+
+Deployment Testing with Vercel
+Unit Testing with Jest (In Progress)
