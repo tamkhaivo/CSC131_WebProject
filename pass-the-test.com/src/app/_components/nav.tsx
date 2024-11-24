@@ -17,9 +17,6 @@ export default async function Navbar() {
           <Link href="/" className="p-2 hover:underline">
             Home
           </Link>
-          <Link href="/about" className="p-2 hover:underline">
-            About
-          </Link>
           {session && (
             <Link href="/api/auth/signout" className="p-2 hover:underline">
               Logout {session.user?.name}
@@ -32,7 +29,7 @@ export default async function Navbar() {
           )}
 
           <Link href="/contact" className="p-2 hover:underline">
-            Contact
+            Contact Us
           </Link>
         </div>
 
@@ -51,9 +48,6 @@ export default async function Navbar() {
         <Link href="/" className="block p-2 text-white hover:bg-gray-600">
           Home
         </Link>
-        <Link href="/about" className="block p-2 text-white hover:bg-gray-600">
-          About
-        </Link>
         {session && (
           <Link href="/api/auth/signout" className="p-2 hover:underline">
             Logout {session.user?.name}
@@ -68,7 +62,7 @@ export default async function Navbar() {
           href="/contact"
           className="block p-2 text-white hover:bg-gray-600"
         >
-          Contact
+          Contact Us
         </Link>
       </div>
     </nav>
