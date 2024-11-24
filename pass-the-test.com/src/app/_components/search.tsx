@@ -5,7 +5,7 @@ export default function SearchBar() {
       <form
         method="GET"
         action="/search" 
-        className="relative flex items-center w-lvw	 max-w-md"
+        className="relative flex items-center w-lvw max-w-md"
       >
         <input
           type="text"

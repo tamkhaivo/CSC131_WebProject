@@ -1,44 +1,75 @@
-"use client";
-
-// components/Navbar.js
-import exp from "constants";
+// components/Navbar.tsx
 import Link from "next/link";
-import { useState } from "react";
+import { auth } from "~/server/auth";
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-
+export default async function Navbar() {
+  const session = await auth();
   return (
     <nav className="bg-gray-800 p-4 text-white">
       <div className="container mx-auto flex items-center justify-between">
+        {/* Brand */}
         <Link href="/" className="text-xl font-bold">
           PassTheTest.com
         </Link>
 
-        <div className="flex">
-          {/* Links */}
-          <button
-            className="block md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            ☰
-          </button>
-          <div
-            className={`flex-col md:flex md:flex-row ${
-              isOpen ? "flex" : "hidden"
-            }`}
-          >
-            <Link href="/" className="p-2 hover:underline">
-              Home
+        {/* Responsive Menu */}
+        <div className="hidden space-x-4 md:flex">
+          <Link href="/" className="p-2 hover:underline">
+            Home
+          </Link>
+          <Link href="/about" className="p-2 hover:underline">
+            About
+          </Link>
+          {session && (
+            <Link href="/api/auth/signout" className="p-2 hover:underline">
+              Logout {session.user?.name}
             </Link>
-            <Link href="/about" className="p-2 hover:underline">
+          )}
+          {!session && (
+            <Link href="/api/auth/signin" className="p-2 hover:underline">
               Login
             </Link>
-            <Link href="/contact" className="p-2 hover:underline">
-              Contact
-            </Link>
-          </div>
+          )}
+
+          <Link href="/contact" className="p-2 hover:underline">
+            Contact
+          </Link>
         </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button className="text-white">
+            <span className="my-1 block h-1 w-6 bg-white"></span>
+            <span className="my-1 block h-1 w-6 bg-white"></span>
+            <span className="my-1 block h-1 w-6 bg-white"></span>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu (Hidden on Medium screens and larger) */}
+      <div className="space-y-2 bg-gray-700 p-4 md:hidden">
+        <Link href="/" className="block p-2 text-white hover:bg-gray-600">
+          Home
+        </Link>
+        <Link href="/about" className="block p-2 text-white hover:bg-gray-600">
+          About
+        </Link>
+        {session && (
+          <Link href="/api/auth/signout" className="p-2 hover:underline">
+            Logout {session.user?.name}
+          </Link>
+        )}
+        {!session && (
+          <Link href="/api/auth/signin" className="p-2 hover:underline">
+            Login
+          </Link>
+        )}
+        <Link
+          href="/contact"
+          className="block p-2 text-white hover:bg-gray-600"
+        >
+          Contact
+        </Link>
       </div>
     </nav>
   );
