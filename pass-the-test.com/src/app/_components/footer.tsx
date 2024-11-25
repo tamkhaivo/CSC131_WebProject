@@ -15,7 +15,7 @@ export default function Footer() {
             Privacy Policy
           </a>
           <a href="/contact#_Terms_and_Conditions" className="text-sm hover:underline">
-            Terms & Conditions
+            Terms &#38; Conditions
           </a>
         </div>
       </div>
