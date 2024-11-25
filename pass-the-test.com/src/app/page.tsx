@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LatestPost } from "~/app/_components/post";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
+import { PaymentForm } from "~/app/_components/PaymentForm";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
@@ -65,6 +66,11 @@ export default async function Home() {
           </div>
 
           {session?.user && <LatestPost />}
+
+          <div className="flex flex-col items-center gap-4">
+            <h2 className="text-3xl font-bold">Test Payment</h2>
+            <PaymentForm />
+          </div>
         </div>
       </main>
     </HydrateClient>
