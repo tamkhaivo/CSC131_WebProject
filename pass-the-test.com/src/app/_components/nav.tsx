@@ -8,27 +8,33 @@ export default async function Navbar() {
     <nav className="bg-gray-800 p-4 text-white">
       <div className="container mx-auto flex items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="text-xl font-bold">
+        <Link href="/" className="text-2xl font-bold">
           PassTheTest.com
         </Link>
 
         {/* Responsive Menu */}
         <div className="hidden space-x-4 md:flex">
-          <Link href="/" className="p-2 hover:underline">
+          <Link href="/" className="p-2 text-xl hover:underline">
             Home
           </Link>
           {session && (
-            <Link href="/api/auth/signout" className="p-2 hover:underline">
+            <Link
+              href="/api/auth/signout"
+              className="p-2 text-xl hover:underline"
+            >
               Logout {session.user?.name}
             </Link>
           )}
           {!session && (
-            <Link href="/api/auth/signin" className="p-2 hover:underline">
+            <Link
+              href="/api/auth/signin"
+              className="p-2 text-xl hover:underline"
+            >
               Login
             </Link>
           )}
 
-          <Link href="/contact" className="p-2 hover:underline">
+          <Link href="/contact" className="p-2 text-xl hover:underline">
             Contact Us
           </Link>
         </div>
@@ -44,23 +50,29 @@ export default async function Navbar() {
       </div>
 
       {/* Mobile Menu (Hidden on Medium screens and larger) */}
-      <div className="space-y-2 bg-gray-700 p-4 md:hidden">
-        <Link href="/" className="block p-2 text-white hover:bg-gray-600">
+      <div className="space-y-2 bg-gray-700 p-4 gap-3 md:hidden">
+        <Link
+          href="/"
+          className="block p-2 text-xl text-white hover:underline hover:bg-gray-600"
+        >
           Home
         </Link>
         {session && (
-          <Link href="/api/auth/signout" className="p-2 hover:underline">
+          <Link
+            href="/api/auth/signout"
+            className="block p-2 text-xl hover:underline hover:bg-gray-600"
+          >
             Logout {session.user?.name}
           </Link>
         )}
         {!session && (
-          <Link href="/api/auth/signin" className="p-2 hover:underline">
+          <Link href="/api/auth/signin" className="block p-2 text-xl hover:underline hover:bg-gray-600">
             Login
           </Link>
         )}
         <Link
           href="/contact"
-          className="block p-2 text-white hover:bg-gray-600"
+          className="block p-2 text-xl text-white hover:underline hover:bg-gray-600"
         >
           Contact Us
         </Link>
