@@ -17,7 +17,7 @@ export default function Navbar({ session }: NavbarProps) {
           PassTheTest.com
         </Link>
 
-        <div className="hidden space-x-4 md:flex items-center">
+        <div className="hidden items-center space-x-4 md:flex">
           <Link href="/" className="p-2 text-xl hover:underline">
             Home
           </Link>
@@ -27,6 +27,32 @@ export default function Navbar({ session }: NavbarProps) {
           <CartNav />
           <AuthNav session={session} />
         </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button className="text-white">
+            <span className="my-1 block h-1 w-6 bg-white"></span>
+            <span className="my-1 block h-1 w-6 bg-white"></span>
+            <span className="my-1 block h-1 w-6 bg-white"></span>
+          </button>
+        </div>
+      </div>
+      {/* Mobile Menu (Hidden on Medium screens and larger) */}
+      <div className="gap-3 space-y-2 bg-gray-700 p-4 md:hidden">
+        <Link
+          href="/"
+          className="block p-2 text-xl text-white hover:bg-gray-600 hover:underline"
+        >
+          Home
+        </Link>
+        <Link
+          href="/contact"
+          className="block p-2 text-xl text-white hover:bg-gray-600 hover:underline"
+        >
+          Contact Us
+        </Link>
+        <CartNav />
+        <AuthNav session={session} />
       </div>
     </nav>
   );
