@@ -4,12 +4,15 @@ import Link from "next/link";
 import CartNav from "./CartNav";
 import AuthNav from "./AuthNav";
 import type { Session } from "next-auth";
+import { useState } from "react";
 
 interface NavbarProps {
   session: Session | null;
 }
 
 export default function Navbar({ session }: NavbarProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <nav className="bg-gray-800 p-4 text-white">
       <div className="container mx-auto flex items-center justify-between">
@@ -30,15 +33,19 @@ export default function Navbar({ session }: NavbarProps) {
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button className="text-white">
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-white"
+            aria-label="Toggle menu"
+          >
             <span className="my-1 block h-1 w-6 bg-white"></span>
             <span className="my-1 block h-1 w-6 bg-white"></span>
             <span className="my-1 block h-1 w-6 bg-white"></span>
           </button>
         </div>
       </div>
-      {/* Mobile Menu (Hidden on Medium screens and larger) */}
-      <div className="gap-3 space-y-2 bg-gray-700 p-4 md:hidden">
+      {/* Mobile Menu (Hidden by default) */}
+      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} gap-3 space-y-2 bg-gray-700 p-4 md:hidden`}>
         <Link
           href="/"
           className="block p-2 text-xl text-white hover:bg-gray-600 hover:underline"
