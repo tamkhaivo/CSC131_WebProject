@@ -1,17 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { useSession, SessionProvider } from "next-auth/react";
 import { PaymentForm } from "~/app/_components/PaymentForm";
 import SearchBar from "~/app/_components/search";
 import Footer from "~/app/_components/footer";
-import { auth } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
 import Navbar from "./_components/nav";
+import { HydrateClient } from "~/trpc/server";
 
-export default async function Home() {
-  const session = await auth();
+function HomeContent() {
+  const { data: session } = useSession();
 
   return (
     <HydrateClient>
-      <Navbar />
+      <Navbar session={session} />
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
           <SearchBar />
@@ -40,10 +42,6 @@ export default async function Home() {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-4">
-          <h2 className="text-3xl font-bold">Test Payment</h2>
-          <PaymentForm />
-        </div>
         <div className="container mt-20 flex flex-col items-center justify-center gap-12 px-4 py-16">
           <h2 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             <span className="text-[hsl(280,100%,70%)]">Who are we?</span>
@@ -57,5 +55,13 @@ export default async function Home() {
       </main>
       <Footer />
     </HydrateClient>
+  );
+}
+
+export default function Home() {
+  return (
+    <SessionProvider>
+      <HomeContent />
+    </SessionProvider>
   );
 }

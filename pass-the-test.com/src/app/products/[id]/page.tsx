@@ -1,47 +1,69 @@
-// app/products/[id]/page.tsx
-import { api, HydrateClient } from "~/trpc/server";
-import Footer from "~/app/_components/footer";
+"use client";
+
+import { useSession } from "next-auth/react";
 import Navbar from "~/app/_components/nav";
-import { auth } from "~/server/auth";
+import { api } from "~/trpc/server";
+import { useParams } from "next/navigation";
+import { useCart } from "~/app/_components/CartContext";
 
-interface ProductPageProps {
-  params: Promise<{ id: string }>;
-}
-
-const ProductPage = async ({ params }: ProductPageProps) => {
-  // Await the params object
-  const { id } = await params; // Await params to access the id
-  const products = await api.post.getAllProducts();
-  const formattedNumber = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+export default function ProductPage() {
+  const { data: session } = useSession();
+  const params = useParams();
+  const id = typeof params.id === 'string' ? params.id : '';
+  const { addItem } = useCart();
   
-  const product = products.find((product) => product.id === id);
+  const { data: product, isLoading } = api.post.getProductById.useQuery({ id });
+
+  const handleAddToCart = () => {
+    if (product) {
+      addItem({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        quantity: 1,
+      });
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <Navbar session={session} />
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+          Loading...
+        </div>
+      </>
+    );
+  }
+
   if (!product) {
-    return <div>Product not found!</div>;
+    return (
+      <>
+        <Navbar session={session} />
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+          Product not found
+        </div>
+      </>
+    );
   }
 
   return (
-    <HydrateClient>
-      <Navbar />
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <div>
-            <h1>{product.title}</h1>
-            <p>{product.desc}</p>
-            <p>Price: {formattedNumber.format(product.price)}</p>
-
-            {/*
-              TO DO: Add STRIPE Components
-            
-            */}
-          </div>
+    <>
+      <Navbar session={session} />
+      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+        <div className="container mx-auto px-4 py-16">
+          <h1 className="mb-8 text-4xl font-bold">{product.title}</h1>
+          <p className="mb-4 text-lg">{product.desc}</p>
+          <p className="text-2xl mb-4">${product.price.toFixed(2)}</p>
+          <button
+            onClick={handleAddToCart}
+            className="rounded bg-blue-500 px-4 py-2 hover:bg-blue-600"
+          >
+            Add to Cart
+          </button>
         </div>
       </main>
-      <Footer />
-    </HydrateClient>
+    </>
   );
-};
+}
 
-export default ProductPage;

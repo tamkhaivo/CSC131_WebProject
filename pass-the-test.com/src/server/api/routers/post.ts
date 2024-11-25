@@ -1,79 +1,81 @@
 import { z } from "zod";
-
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { TRPCError } from "@trpc/server";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { stripe } from "../../stripe/index";
 
 export const postRouter = createTRPCRouter({
-  getAllProducts: publicProcedure.query(async ({ ctx }) => {
-    const products = await ctx.db.product.findMany({
-      take: 10,
-    });
-    return products;
+  getAllProducts: publicProcedure.query(({ ctx }) => {
+    return ctx.db.product.findMany();
   }),
+
   getProductById: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const product = await ctx.db.product.findFirst({
-        where: {
-          id: input.id
+    .query(({ ctx, input }) => {
+      return ctx.db.product.findFirst({
+        where: { id: input.id },
+      });
+    }),
+
+  createCheckoutSession: publicProcedure
+    .input(z.object({
+      products: z.array(z.object({
+        id: z.string(),
+        quantity: z.number(),
+        price: z.number(),
+        title: z.string()
+      }))
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const baseUrl = process.env.NEXTAUTH_URL ?? 'http://localhost:3000';
+      
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: input.products.map(item => ({
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: item.title,
+            },
+            unit_amount: Math.round(item.price * 100),
+          },
+          quantity: item.quantity,
+        })),
+        mode: "payment",
+        success_url: `${baseUrl}/payment/success`,
+        cancel_url: `${baseUrl}/cart`,
+      });
+      return { url: session.url };
+    }),
+
+  recordTransaction: publicProcedure
+    .input(z.object({
+      paymentIntentId: z.string(),
+      products: z.array(z.object({
+        productId: z.string(),
+        quantity: z.number()
+      }))
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const paymentIntent = await stripe.paymentIntents.retrieve(input.paymentIntentId);
+      
+      if (paymentIntent.status !== 'succeeded') {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Payment has not been completed'
+        });
+      }
+
+      // Record transaction in database
+      await ctx.db.transactions.create({
+        data: {
+          transaction_id: input.paymentIntentId,
+          amount: paymentIntent.amount,
+          transaction_date: new Date().toISOString(),
+          product_id: input.products[0]?.productId ?? 'unknown',
+          user_id: ctx.session?.user?.id ?? 'anonymous'
         }
       });
-      return product;
-    }),
 
-  insertData: protectedProcedure
-    .input(
-      z.object({
-        title: z.string(),
-        desc: z.string(),
-        price: z.number(),
-        sale: z.number(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.product.create({
-        data: {
-          title: input.title,
-          desc: input.desc,
-          price: input.price,
-          sale: input.sale,
-        },
-      });
+      return { success: true };
     }),
-  /*
-  TO DO: INTEGRATE TRCP ROUTER DB CALLS
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-  create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.post.create({
-        data: {
-          name: input.name,
-          createdBy: { connect: { id: ctx.session.user.id } },
-        },
-      });
-    }),
-
-  getLatest: protectedProcedure.query(async ({ ctx }) => {
-    const post = await ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-      where: { createdBy: { id: ctx.session.user.id } },
-    });
-
-    return post ?? null;
-  }),
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
-
-  */
 });
