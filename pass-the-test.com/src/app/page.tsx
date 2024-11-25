@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { LatestPost } from "~/app/_components/post";
 import SearchBar from "~/app/_components/search";
+import Footer from "~/app/_components/footer";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import { PaymentForm } from "~/app/_components/PaymentForm";
@@ -66,7 +67,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 mt-50">
+        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 mt-20">
           <h2 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             <span className="text-[hsl(280,100%,70%)]">Who are we?</span>
           </h2>
@@ -76,6 +77,7 @@ export default async function Home() {
           </p>
         </div>
       </main>
+      <Footer/>
     </HydrateClient>
   );
 }
