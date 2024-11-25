@@ -3,9 +3,6 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
-import Footer from "../_components/footer";
-import Navbar from "../_components/nav";
-import { HydrateClient } from "~/trpc/server";
 
 export const metadata: Metadata = {
   title: "Contact Us - Pass the Test",
@@ -19,13 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        <TRPCReactProvider>
-          <HydrateClient>
-            <Navbar />
-            {children}
-            <Footer />
-          </HydrateClient>
-        </TRPCReactProvider>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
   );

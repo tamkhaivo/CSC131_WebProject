@@ -1,6 +1,4 @@
 import Link from "next/link";
-
-import { LatestPost } from "~/app/_components/post";
 import { PaymentForm } from "~/app/_components/PaymentForm";
 import SearchBar from "~/app/_components/search";
 import Footer from "~/app/_components/footer";
