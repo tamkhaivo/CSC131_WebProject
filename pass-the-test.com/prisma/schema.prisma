@@ -6,6 +6,17 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+model User {
+    id              String      @id @default(auto()) @map("_id") @db.ObjectId
+    firstname       String
+    lastname        String
+    email           String      @unique
+    createdAt       DateTime    @default(now())
+    emailVerified   DateTime?   @map("verifiedAt")
+    sessions        Session[]
+    address         UsersAddress[]
+    @@map("users")
+}
 
 type UsersAddress {
   city          String
@@ -14,7 +25,6 @@ type UsersAddress {
   streetAddress String
   zipCode       String
 }
-
 
 model Transactions {
   id               String @id @default(auto()) @map("_id") @db.ObjectId
@@ -34,6 +44,15 @@ model VerificationToken {
     @@map("verification_tokens")
 }
 
+model Session {
+    id              String      @id @default(auto()) @map("_id") @db.ObjectId
+    sessionToken    String      @unique
+    userId          String      @db.ObjectId
+    expires         DateTime    @map("expiresAt")
+    user            User        @relation(fields: [userId], references: [id])
+    @@map("sessions")
+}
+
 model Product {
     id              String      @id @default(auto()) @map("_id") @db.ObjectId
     createdAt       DateTime    @default(now())
@@ -42,13 +61,4 @@ model Product {
     price           Int
     sale            Int?
     @@map("product")
-
-}
-model Users {
-  id        String         @id @default(auto()) @map("_id") @db.ObjectId
-  address   UsersAddress[]
-  email     String
-  firstname String
-  lastname  String
-  user_id   String
 }
