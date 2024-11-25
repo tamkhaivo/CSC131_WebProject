@@ -5,7 +5,7 @@ import Navbar from "~/app/_components/nav";
 import { auth } from "~/server/auth";
 
 interface ProductPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const ProductPage = async ({ params }: ProductPageProps) => {
