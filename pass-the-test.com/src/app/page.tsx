@@ -1,12 +1,13 @@
 import Link from "next/link";
 
 import { LatestPost } from "~/app/_components/post";
+import { PaymentForm } from "~/app/_components/PaymentForm";
 import SearchBar from "~/app/_components/search";
 import Footer from "~/app/_components/footer";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
-import { PaymentForm } from "~/app/_components/PaymentForm";
 import Navbar from "./_components/nav";
+
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
@@ -55,11 +56,6 @@ export default async function Home() {
           </div>
 
           {session?.user && <LatestPost />}
-
-          <div className="flex flex-col items-center gap-4">
-            <h2 className="text-3xl font-bold">Test Payment</h2>
-            <PaymentForm />
-          </div>
         </div>
 
         <div className="container mt-20 flex flex-col items-center justify-center gap-12 px-4 py-16">
