@@ -13,6 +13,14 @@ export default async function Home() {
             Contact Us
           </h1>
           <p>Work In Progress</p>
+          <h2 id="_Private_Policy" className="text-5xl font-extrabold tracking-tight text-[hsl(280,100%,70%)] sm:text-[5rem]">
+            Privacy Policy
+          </h2>
+          <p>Work In Progress</p>
+          <h2 id="_Terms_and_Conditions" className="text-5xl font-extrabold tracking-tight text-[hsl(280,100%,70%)] sm:text-[5rem]">
+            Terms &#38; Conditions
+          </h2>
+          <p>Work In Progress</p>
         </div>
       </main>
       <Footer />
