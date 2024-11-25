@@ -6,6 +6,7 @@ import Footer from "~/app/_components/footer";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import { PaymentForm } from "~/app/_components/PaymentForm";
+import Navbar from "./_components/nav";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
@@ -20,6 +21,7 @@ export default async function Home() {
 
   return (
     <HydrateClient>
+      <Navbar />
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
           <SearchBar />
@@ -54,8 +56,6 @@ export default async function Home() {
             </p>
           </div>
 
- 
-
           {session?.user && <LatestPost />}
 
           <div className="flex flex-col items-center gap-4">
@@ -64,17 +64,17 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 mt-20">
+        <div className="container mt-20 flex flex-col items-center justify-center gap-12 px-4 py-16">
           <h2 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             <span className="text-[hsl(280,100%,70%)]">Who are we?</span>
           </h2>
           <p className="text-2xl font-bold">
-            We are a learning archive center for Computer Science Upper Division Courses, ranging
-            from Bachelor&apos;s to Master&apos;s.
+            We are a learning archive center for Computer Science Upper Division
+            Courses, ranging from Bachelor&apos;s to Master&apos;s.
           </p>
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </HydrateClient>
   );
 }
