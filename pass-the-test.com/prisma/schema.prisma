@@ -1,39 +1,38 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
-// Necessary for Next auth
-model User {
-    id              String      @id @default(auto()) @map("_id") @db.ObjectId
-    email           String      @unique
-    createdAt       DateTime    @default(now())
-    emailVerified   DateTime?   @map("verifiedAt")
-    sessions        Session[]
-    @@map("users")
+type UsersAddress {
+  city          String
+  country       String
+  state         String
+  streetAddress String
+  zipCode       String
 }
 
-model Session {
-    id              String      @id @default(auto()) @map("_id") @db.ObjectId
-    sessionToken    String      @unique
-    userId          String      @db.ObjectId
-    expires         DateTime    @map("expiresAt")
-    user            User        @relation(fields: [userId], references: [id])
-    @@map("sessions")
+model Products {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 }
 
-model VerificationToken {
-    id              String      @id @default(auto()) @map("_id") @db.ObjectId
-    identifier      String
-    token           String      @unique
-    expires         DateTime    @map("expiresAt")
-    @@unique([identifier, token])
-    @@map("verification_tokens")
+model Transactions {
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  amount           Int
+  product_id       String
+  transaction_date String
+  transaction_id   String
+  user_id          String
+}
+
+model Users {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  address   UsersAddress[]
+  email     String
+  firstname String
+  lastname  String
+  user_id   String
 }
