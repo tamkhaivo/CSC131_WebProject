@@ -61,7 +61,7 @@ export default async function Home() {
           </h2>
           <p className="text-2xl font-bold">
             We are a learning archive center for Computer Science Upper Division Courses, ranging
-            from Bachelor's to Master's.
+            from Bachelor&apos;s to Master&apos;s.
           </p>
         </div>
       </main>
