@@ -30,7 +30,7 @@ export default async function Home() {
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
               href="#_testimonials"
             >
-              <h3 className="text-2xl font-bold">Testimonials →</h3>
+              <h2 className="text-2xl font-bold">Testimonials →</h2>
               <div className="text-lg">
                 Look what other people had to say about our service!
               </div>
@@ -39,7 +39,7 @@ export default async function Home() {
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
               href="/contact"
             >
-              <h3 className="text-2xl font-bold">Contact Us →</h3>
+              <h2 className="text-2xl font-bold">Contact Us →</h2>
               <div className="text-lg">
                 Got an idea? Let us know how we can improve!
               </div>
@@ -53,6 +53,16 @@ export default async function Home() {
           </div>
 
           {session?.user && <LatestPost />}
+        </div>
+
+        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 mt-50">
+          <h2 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+            <span className="text-[hsl(280,100%,70%)]">Who are we?</span>
+          </h2>
+          <p className="text-2xl font-bold">
+            We are a learning archive center for Computer Science Upper Division Courses, ranging
+            from Bachelor's to Master's.
+          </p>
         </div>
       </main>
     </HydrateClient>
