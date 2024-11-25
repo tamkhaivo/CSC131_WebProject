@@ -8,17 +8,12 @@ import {
 
 export const postRouter = createTRPCRouter({
   getAllProducts: publicProcedure.query(async ({ ctx }) => {
-    try {
-      const products = await ctx.db.product.findMany({
-        take: 10,
-      });
-      return products;
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      throw new Error("Failed to fetch products");
-    }
+    const products = await ctx.db.product.findMany({
+      take: 10,
+    });
+    return products;
   }),
-  insertData: publicProcedure
+  insertData: protectedProcedure
     .input(
       z.object({
         title: z.string(),
