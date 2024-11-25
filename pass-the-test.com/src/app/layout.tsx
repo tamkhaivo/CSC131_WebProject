@@ -1,23 +1,17 @@
+"use client";
+
 import "~/styles/globals.css";
-
-import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
-import { TRPCReactProvider } from "~/trpc/react";
-
-export const metadata: Metadata = {
-  title: "Pass the Test",
-  description:
-    "You can pass the test~ Studying made easier and straightforward!",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
+import { Providers } from "~/app/providers";
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
