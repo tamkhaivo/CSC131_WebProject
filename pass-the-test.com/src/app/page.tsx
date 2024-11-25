@@ -1,6 +1,4 @@
 import Link from "next/link";
-
-import { LatestPost } from "~/app/_components/post";
 import { PaymentForm } from "~/app/_components/PaymentForm";
 import SearchBar from "~/app/_components/search";
 import Footer from "~/app/_components/footer";
@@ -11,8 +9,6 @@ import Navbar from "./_components/nav";
 export default async function Home() {
   const session = await auth();
   const products = await api.post.getAllProducts();
-
-  console.log(products);
 
   /*const insertDate = await api.post.insertData({
     title: "CSC 60 Study Guide",
