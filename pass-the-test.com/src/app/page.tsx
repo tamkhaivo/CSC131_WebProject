@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { LatestPost } from "~/app/_components/post";
-import { PaymentForm } from "./_components/PaymentForm";
 import SearchBar from "~/app/_components/search";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
