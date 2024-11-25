@@ -1,7 +1,11 @@
 // components/SearchBar.tsx
-export default function SearchBar() {
+interface SearchBarProps {
+  isMobileMenuOpen?: boolean;
+}
+
+export default function SearchBar({ isMobileMenuOpen }: SearchBarProps) {
   return (
-    <div className="flex justify-center items-center ">
+    <div className={`flex justify-center items-center ${isMobileMenuOpen ? 'hidden md:flex' : ''}`}>
       <form
         method="GET"
         action="/search" 

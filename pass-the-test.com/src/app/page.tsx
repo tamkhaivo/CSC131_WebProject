@@ -7,16 +7,18 @@ import SearchBar from "~/app/_components/search";
 import Footer from "~/app/_components/footer";
 import Navbar from "./_components/nav";
 import { HydrateClient } from "~/trpc/server";
+import { useState } from "react";
 
 function HomeContent() {
   const { data: session } = useSession();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <HydrateClient>
       <Navbar session={session} />
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <SearchBar />
+          <SearchBar isMobileMenuOpen={isMobileMenuOpen} />
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             <span className="text-[hsl(280,100%,70%)]">Studying made easy</span>{" "}
             so you can focus on the things that matter!
