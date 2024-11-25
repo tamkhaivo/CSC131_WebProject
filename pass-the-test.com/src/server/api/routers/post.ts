@@ -37,6 +37,22 @@ export const postRouter = createTRPCRouter({
   }),
 
   */
+  getAllProducts: publicProcedure.query(async ({ ctx }) => {
+    const products = await ctx.db.product.findMany();
+    return products;
+  }),
+
+  insertData: publicProcedure
+    .input(z.object({ title: z.string(), desc: z.string(), price: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.product.create({
+        data: {
+          title: input.title,
+          desc: input.desc,
+          price: input.price,
+        },
+      });
+    }),
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
   }),

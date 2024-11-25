@@ -11,12 +11,17 @@ import Navbar from "./_components/nav";
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
+  const products = await api.post.getAllProducts();
+
+  console.log(products)
   /*
-  TO DO: Create User Session
-  
-  if (session?.user) {
-    void api.post.getLatest.prefetch();
-  }
+    const insertDate = await api.post.insertData({
+    title: "CSC 35 Study Guide",
+    desc: "This is Study Guide is made specifically for Computer Science 35 Course at California State University, Sacramento.",
+    price: 5,
+  });
+
+
   */
   return (
     <HydrateClient>
