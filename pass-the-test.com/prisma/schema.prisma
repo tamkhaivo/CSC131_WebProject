@@ -44,5 +44,7 @@ model Product {
     title           String
     desc            String
     price           Int
-    sale            Int
+    sale            Int?
+    @@map("product")
+
 }

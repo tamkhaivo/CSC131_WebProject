@@ -7,7 +7,6 @@ import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import { PaymentForm } from "~/app/_components/PaymentForm";
 import Navbar from "./_components/nav";
-
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
@@ -18,7 +17,6 @@ export default async function Home() {
     void api.post.getLatest.prefetch();
   }
   */
-
   return (
     <HydrateClient>
       <Navbar />
@@ -73,6 +71,7 @@ export default async function Home() {
             Courses, ranging from Bachelor&apos;s to Master&apos;s.
           </p>
         </div>
+        <button></button>
       </main>
       <Footer />
     </HydrateClient>

@@ -1,25 +1,42 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function createEntries() {
-  const createMany = await prisma.product.createMany({
-    data: [
-      {
-        title: "CSC 131 Study Guide",
-        desc: "This is Study Guide is made specifically for Computer Science 131 Course at California State University, Sacramento.",
-        price: 100,
-      },
-      {
-        title: "CSC 60 Study Guide",
-        desc: "This is Study Guide is made specifically for Computer Science 60 Course at California State University, Sacramento.",
-        price: 10,
-      },
-      {
-        title: "CSC 35 Study Guide",
-        desc: "This is Study Guide is made specifically for Computer Science 35 Course at California State University, Sacramento.",
-        price: 5,
-      },
-    ],
-  });
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  try {
+    if (req.method === "POST") {
+      const { title, desc, price, sale } = req.body;
+
+      if (!title || !desc || !price) {
+        return res
+          .status(400)
+          .json({ error: "Title, description, and price are required." });
+      }
+
+      const product = await prisma.product.create({
+        data: {
+          title,
+          desc,
+          price,
+          sale: sale || null,
+        },
+      });
+
+      return res.status(201).json({ product });
+    } else {
+      res.setHeader("Allow", ["POST"]);
+      return res
+        .status(405)
+        .json({ error: `Method ${req.method} not allowed` });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  } finally {
+    await prisma.$disconnect();
+  }
 }
