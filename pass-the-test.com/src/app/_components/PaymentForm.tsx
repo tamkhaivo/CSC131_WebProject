@@ -55,7 +55,6 @@ function CheckoutForm() {
 
 export function PaymentForm() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-
   const handleStartPayment = async () => {
     const response = await fetch("/api/create-payment-intent", {
       method: "POST",
