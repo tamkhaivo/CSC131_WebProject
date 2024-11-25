@@ -10,8 +10,6 @@ export default async function Home() {
   const session = await auth();
   const products = await api.post.getAllProducts();
 
-  console.log(products);
-
   /*const insertDate = await api.post.insertData({
     title: "CSC 60 Study Guide",
     desc: "This is Study Guide is made specifically for Computer Science 60 Course at California State University, Sacramento.",

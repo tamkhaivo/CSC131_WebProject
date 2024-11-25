@@ -2,6 +2,7 @@ import Footer from "~/app/_components/footer";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import Navbar from "../_components/nav";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
@@ -10,7 +11,6 @@ export default async function Home() {
     style: "currency",
     currency: "USD",
   });
-  console.log(products);
 
   return (
     <HydrateClient>
@@ -22,7 +22,7 @@ export default async function Home() {
           </h1>
           {products.map((item) => (
             <li className="list-none" key={item.id}>
-              <h2 className="text-2xl">{item.title}</h2>
+              <h2 className="text-2xl hover:underline"><Link href={`/products/${item.id}`}>{item.title}</Link></h2>
               <p>{formattedNumber.format(item.price)}</p>
               <p>{item.desc}</p>
             </li>
