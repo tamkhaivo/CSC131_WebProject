@@ -4,7 +4,11 @@ import Footer from "~/app/_components/footer";
 import Navbar from "~/app/_components/nav";
 import { auth } from "~/server/auth";
 
-const ProductPage = async ({ params }) => {
+interface ProductPageProps {
+  params: { id: string };
+}
+
+const ProductPage = async ({ params }: ProductPageProps) => {
   // Await the params object
   const { id } = await params; // Await params to access the id
   const products = await api.post.getAllProducts();
