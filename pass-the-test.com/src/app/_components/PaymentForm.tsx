@@ -8,10 +8,12 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { api } from "~/trpc/react";
 
-// Initialize Stripe with your publishable key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+interface PaymentResponse {
+  clientSecret: string;
+}
 
 function CheckoutForm() {
   const stripe = useStripe();
@@ -21,13 +23,9 @@ function CheckoutForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (!stripe || !elements) {
-      return;
-    }
+    if (!stripe || !elements) return;
 
     setIsProcessing(true);
-
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -38,7 +36,6 @@ function CheckoutForm() {
     if (error) {
       setErrorMessage(error.message ?? "An unknown error occurred");
     }
-
     setIsProcessing(false);
   };
 
@@ -58,15 +55,14 @@ function CheckoutForm() {
 
 export function PaymentForm() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const createPaymentIntent = api.payment.createPaymentIntent.useMutation({
-    onSuccess: (data) => {
-      setClientSecret(data.clientSecret ?? null);
-    },
-  });
-
-  const handleStartPayment = () => {
-    // Create a payment intent for $10.00
-    createPaymentIntent.mutate({ amount: 1000 });
+  const handleStartPayment = async () => {
+    const response = await fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: 1000 }),
+    });
+    const data = (await response.json()) as PaymentResponse;
+    setClientSecret(data.clientSecret);
   };
 
   return (
@@ -79,7 +75,6 @@ export function PaymentForm() {
           Start Payment
         </button>
       )}
-
       {clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm />
