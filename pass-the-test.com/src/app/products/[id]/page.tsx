@@ -27,6 +27,11 @@ const ProductPage = async ({ params }: ProductPageProps) => {
             <h1>{product.title}</h1>
             <p>{product.desc}</p>
             <p>Price: {formattedNumber.format(product.price)}</p>
+
+            {/*
+              TO DO: Add STRIPE Components
+            
+            */}
           </div>
         </div>
       </main>

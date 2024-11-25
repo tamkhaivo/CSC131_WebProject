@@ -8,15 +8,6 @@ import Navbar from "./_components/nav";
 
 export default async function Home() {
   const session = await auth();
-  const products = await api.post.getAllProducts();
-
-  /*const insertDate = await api.post.insertData({
-    title: "CSC 60 Study Guide",
-    desc: "This is Study Guide is made specifically for Computer Science 60 Course at California State University, Sacramento.",
-    price: 1000,
-    sale: 40,
-  });
-  */
 
   return (
     <HydrateClient>
@@ -48,8 +39,6 @@ export default async function Home() {
               </div>
             </Link>
           </div>
-
-          {session?.user && <LatestPost />}
         </div>
         <div className="flex flex-col items-center gap-4">
           <h2 className="text-3xl font-bold">Test Payment</h2>

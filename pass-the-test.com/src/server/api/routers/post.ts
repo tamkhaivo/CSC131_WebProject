@@ -13,16 +13,17 @@ export const postRouter = createTRPCRouter({
     });
     return products;
   }),
-  getProductsById: publicProcedure
-    .input(z.object({ text: z.string() }))
+  getProductById: publicProcedure
+    .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-    const products = await ctx.db.product.findMany({
-      take: 10,
-    });
-    return products;
-  }),
+      const product = await ctx.db.product.findFirst({
+        where: {
+          id: input.id
+        }
+      });
+      return product;
+    }),
 
-  
   insertData: protectedProcedure
     .input(
       z.object({
