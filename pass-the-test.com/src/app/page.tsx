@@ -9,20 +9,19 @@ import { api, HydrateClient } from "~/trpc/server";
 import Navbar from "./_components/nav";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
   const products = await api.post.getAllProducts();
 
-  console.log(products)
-  /*
-    const insertDate = await api.post.insertData({
-    title: "CSC 35 Study Guide",
-    desc: "This is Study Guide is made specifically for Computer Science 35 Course at California State University, Sacramento.",
-    price: 5,
+  console.log(products);
+
+  /*const insertDate = await api.post.insertData({
+    title: "CSC 60 Study Guide",
+    desc: "This is Study Guide is made specifically for Computer Science 60 Course at California State University, Sacramento.",
+    price: 1000,
+    sale: 40,
   });
-
-
   */
+
   return (
     <HydrateClient>
       <Navbar />
@@ -52,12 +51,6 @@ export default async function Home() {
                 Got an idea? Let us know how we can improve!
               </div>
             </Link>
-          </div>
-
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
           </div>
 
           {session?.user && <LatestPost />}
