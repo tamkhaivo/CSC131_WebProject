@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { LatestPost } from "~/app/_components/post";
+import { PaymentForm } from "./_components/PaymentForm";
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 
@@ -62,6 +63,11 @@ export default async function Home() {
                 {session ? "Sign out" : "Sign in"}
               </Link>
             </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-4">
+            <h2 className="text-3xl font-bold">Test Payment</h2>
+            <PaymentForm />
           </div>
 
           {session?.user && <LatestPost />}
