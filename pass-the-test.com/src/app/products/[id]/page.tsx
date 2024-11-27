@@ -11,7 +11,11 @@ export default function ProductPage() {
   const params = useParams();
   const id = typeof params.id === 'string' ? params.id : '';
   const { addItem } = useCart();
-  
+  const formattedNumber = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   const { data: product, isLoading } = api.post.getProductById.useQuery({ id });
 
   const handleAddToCart = () => {
@@ -54,7 +58,10 @@ export default function ProductPage() {
         <div className="container mx-auto px-4 py-16">
           <h1 className="mb-8 text-4xl font-bold">{product.title}</h1>
           <p className="mb-4 text-lg">{product.desc}</p>
-          <p className="text-2xl mb-4">${product.price.toFixed(2)}</p>
+          <p className="mb-4 text-4xl text-amber-500">WARNING!! THIS IS NOT A REAL PRODUCT!! NO REFUNDS WILL BE PROCESSED!! </p>
+
+          <p className="text-2xl mb-4">{formattedNumber.format(product.price)}</p>
+          
           <button
             onClick={handleAddToCart}
             className="rounded bg-blue-500 px-4 py-2 hover:bg-blue-600"
